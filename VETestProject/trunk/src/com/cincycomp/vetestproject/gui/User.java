@@ -15,7 +15,7 @@ import javax.persistence.Id;
 // import java.util.Scanner;
 
 /**
- * @author lance
+ * @author Lance Feldman
  *
  */
 @Entity
