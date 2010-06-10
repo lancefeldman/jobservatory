@@ -15,7 +15,7 @@ import javax.persistence.Id;
 // import java.util.Scanner;
 
 /**
- * @author Lance Feldman
+ * @author Lance Feldman - trivial change
  *
  */
 @Entity
