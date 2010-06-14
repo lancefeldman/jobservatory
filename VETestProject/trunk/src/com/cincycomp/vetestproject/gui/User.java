@@ -17,7 +17,7 @@ import javax.persistence.Id;
 /**
  * @author Lance Feldman - trivial change
  * 
- * This class maps to a table of the same name in the database
+ * This class maps to a table of the same name in the database  dwr
  */
 @Entity
 public class User {
