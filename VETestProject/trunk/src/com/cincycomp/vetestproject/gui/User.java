@@ -24,7 +24,7 @@ public class User {
 
 	@Id
 	@GeneratedValue
-	private Long userId;
+	private Long userId;  //  @jve:decl-index=0:
 
 	private String password;
 	

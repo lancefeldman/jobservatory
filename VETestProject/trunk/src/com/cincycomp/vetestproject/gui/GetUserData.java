@@ -400,11 +400,14 @@ public class GetUserData extends JFrame {
 			jRetrieveUserUsingCriteriaButton
 					.addActionListener(new java.awt.event.ActionListener() {
 						public void actionPerformed(java.awt.event.ActionEvent e) {
+							int idVariable=0;
 							User u = new User();
 							Example example = null;
 							String firstName = null;
 							String lastName = null;
 							String userPassword = null;
+							String queryString = null;
+							
 							
 							// Enclose Hibernate transaction with exception handling
 							try {
@@ -426,24 +429,23 @@ public class GetUserData extends JFrame {
 								
 								if (firstName.length() > 0){
 									u.setFirstName(firstName);
-									System.out.println("Example: firstName="+u.getFirstName());
 								}
 								else{
-									System.out.println("Example: firstname = null");
+									u.setFirstName(null);
 								}
+
 								if (lastName.length() > 0){
 									u.setLastName(lastName);
-									System.out.println("         lastName="+u.getLastName());
 								}
 								else{
-									System.out.println("         lastname = null");
+									u.setLastName(null);
 								}
+
 								if (userPassword.length() > 0){
-									u.setPassword(userPassword);
-									System.out.println("         password="+u.getPassword());	
+									u.setPassword(userPassword);	
 								}
 								else{
-									System.out.println("         password = null");
+									u.setPassword(null);
 								}
 								
 								example = Example.create(u);
@@ -452,20 +454,42 @@ public class GetUserData extends JFrame {
 								criteria.add(example);
 								u = (User)criteria.uniqueResult();
 								if (u != null){
-									System.out.println("User.firstName="+u.getFirstName());
-									System.out.println("User.lastName="+u.getLastName());
-									System.out.println("User.password="+u.getPassword());
+							        jFirstNameTextField.setText(u.getFirstName());
+									jLastNameTextField.setText(u.getLastName());
+									jPasswordTextField.setText(u.getPassword());
+									idVariable=u.getUserId().intValue();
+									
+								    queryString = "from UserAddress where userId = :userId";							    
+									// Create Query object using Session object
+								    Query query = session.createQuery(queryString);
+								    query.setInteger("userId", idVariable);
+								    
+								    // Create Query object using Session object
+								    Object queryResult = query.uniqueResult();
+								    ua = (UserAddress)queryResult;
+									if (ua != null){
+										System.out.println("Retrieving user address   : " + ua.getUserId() + " " + ua.getStreetAddress() + " " + ua.getCityName() + " " + ua.getStateName() + " " + ua.getZipCode());
+								        jStreetAddressTextField.setText(ua.getStreetAddress());
+										jCityNameTextField.setText(ua.getCityName());
+										jStateNameTextField.setText(ua.getStateName());
+										jZipCodeTextField.setText(ua.getZipCode());
+									}
+									else{
+										System.out.println("userAddress not found");
+								        jStreetAddressTextField.setText("");
+										jCityNameTextField.setText("");
+										jStateNameTextField.setText("");
+										jZipCodeTextField.setText("");
+									}									
 								}
+								else{
+									System.out.println("userId not found");
+							        jFirstNameTextField.setText("");
+									jLastNameTextField.setText("");
+									jPasswordTextField.setText("");
+								}								
 
-//								java.util.List results = criteria.list();
-//								System.out.println("results.size()="+results.size());
-//								for (int i = 0; i<results.size(); i++) {
-//									User result = (User) results.get(i);
-//									System.out.println("User["+i+"].firstName="+result.getFirstName());
-//									System.out.println("User["+i+"].lastName="+result.getLastName());
-//									System.out.println("User["+i+"].password="+result.getPassword());
-//								   System.out.println(results.get(i).toString());
-//								}
+
 
 //							    System.out.println("Retrieve User: FirstName ="+jFirstNameTextField.getText()+
 //							    		"\n LastName ="+jLastNameTextField.getText()+ "UserPassword="+jPasswordTextField.getText());
@@ -577,7 +601,8 @@ public class GetUserData extends JFrame {
 							        // Print out transaction start time
 									cal = Calendar.getInstance();
 								    System.out.println("Start time   : " + dateFormat.format(cal.getTime()));
-								    String queryString = "from User where id = :id"; 
+//								    String queryString = "from User where id = :id";
+								    String queryString = "from User where userId = :userId"; 
 									// 
 									// Create Query object using Session object
 								    Query query = session.createQuery(queryString);
@@ -600,9 +625,9 @@ public class GetUserData extends JFrame {
 											    }
 								    		}
 								    }
-									query.setInteger("id", idVariable);
+//									query.setInteger("id", idVariable);
+									query.setInteger("userId", idVariable);
 									Object queryResult = query.uniqueResult();
-//									User user = (User)queryResult;
 									u = (User)queryResult;
 									if (u != null){
 										System.out.println("Retrieving user   : " + u.getUserId() + " " + u.getFirstName() + " " + u.getLastName() + " Password: " + u.getPassword());
@@ -616,6 +641,33 @@ public class GetUserData extends JFrame {
 										jLastNameTextField.setText("");
 										jPasswordTextField.setText("");
 									}
+									
+								    queryString = "from UserAddress where userId = :userId";
+								    query = session.createQuery(queryString);
+								    query.setInteger("userId", idVariable);
+								    
+//									String zip = "02178";							
+//								    queryString = "from UserAddress where zipCode = :zipCode";
+//								    query.setString("zipCode", zip);
+								    
+								    // Create Query object using Session object
+								    queryResult = query.uniqueResult();
+								    ua = (UserAddress)queryResult;
+									if (ua != null){
+										System.out.println("Retrieving user address   : " + ua.getUserId() + " " + ua.getStreetAddress() + " " + ua.getCityName() + " " + ua.getStateName() + " " + ua.getZipCode());
+								        jStreetAddressTextField.setText(ua.getStreetAddress());
+										jCityNameTextField.setText(ua.getCityName());
+										jStateNameTextField.setText(ua.getStateName());
+										jZipCodeTextField.setText(ua.getZipCode());
+									}
+									else{
+										System.out.println("userAddress not found");
+								        jStreetAddressTextField.setText("");
+										jCityNameTextField.setText("");
+										jStateNameTextField.setText("");
+										jZipCodeTextField.setText("");
+									}								    
+								    
 									System.out.println("actionPerformed()"); // TODO Auto-generated Event stub actionPerformed()
 							        //
 							        // Print out transaction stop time
