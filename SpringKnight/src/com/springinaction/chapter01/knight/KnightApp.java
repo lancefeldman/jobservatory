@@ -6,11 +6,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class KnightApp {
   public static void main(String[] args) throws Exception {
     ApplicationContext ctx = 
-      new ClassPathXmlApplicationContext(
-          "knight.xml");
+      new ClassPathXmlApplicationContext("knight.xml");
 
-    Knight knight =
-        (Knight) ctx.getBean("knight");
+    Knight knight = (Knight) ctx.getBean("knight");
 
     knight.embarkOnQuest();
   }
