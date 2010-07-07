@@ -6,6 +6,7 @@ public class HolyGrailQuest implements Quest {
   
   public Object embark() throws GrailNotFoundException {
     // do whatever it means to embark on a quest
+	System.out.println("Embarked on a quest.");
     return new HolyGrail();
   }
 }
