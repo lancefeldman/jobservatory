@@ -5,8 +5,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class SpringIdolMain {
   public static void main(String[] args) {
-    ApplicationContext ctx = new ClassPathXmlApplicationContext(
-        "spring-idol.xml");
+    ApplicationContext ctx = new ClassPathXmlApplicationContext("spring-idol.xml");
     
     TalentCompetition competition = 
         (TalentCompetition) ctx.getBean("springIdol");
